@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -28,23 +28,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Build application with Vite
-        run: npm run build
-
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Build application with Vite
+        run: npm run build
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+
+      - name: Upload artifact for GitHub Actions deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the built dist folder containing compiled HTML, JS, and CSS
           path: './dist'
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages (Actions method)
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Deploy to gh-pages branch (Branch fallback method)
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
