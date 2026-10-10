@@ -1,0 +1,6 @@
+{
+  "name": "RaktKhoj - Blood Discovery & Hospital Finder",
+  "description": "Connecting blood donors with patients in urgent need and discovering trusted healthcare facilities across India.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
